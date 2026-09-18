@@ -2,6 +2,7 @@ services:
   - type: web
     name: honcho-chatgpt-bridge
     runtime: docker
+    plan: free
     autoDeploy: false
     healthCheckPath: /health
     envVars:
