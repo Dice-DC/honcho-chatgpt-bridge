@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: honcho-chatgpt-bridge
+    runtime: docker
+    autoDeploy: false
+    healthCheckPath: /health
+    envVars:
+      - key: HONCHO_API_KEY
+        sync: false
+      - key: BRIDGE_API_KEY
+        sync: false
+      - key: HONCHO_WORKSPACE
+        value: hermes
+      - key: HONCHO_USER_PEER
+        value: Norm
+      - key: HONCHO_AI_PEER
+        value: ChatGPT
+      - key: HONCHO_SESSION
+        value: chatgpt
+      - key: PUBLIC_BASE_URL
+        sync: false
