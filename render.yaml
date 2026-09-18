@@ -8,6 +8,12 @@ services:
     envVars:
       - key: HONCHO_API_KEY
         sync: false
+      - key: HONCHO_REFRESH_TOKEN
+        sync: false
+      - key: HONCHO_OAUTH_CLIENT_ID
+        value: hermes-agent
+      - key: HONCHO_OAUTH_TOKEN_ENDPOINT
+        value: https://api.honcho.dev/oauth/token
       - key: BRIDGE_API_KEY
         sync: false
       - key: HONCHO_WORKSPACE
