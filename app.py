@@ -1,7 +1,5 @@
 import os
 import secrets
-import urllib.parse
-import urllib.request
 from typing import Literal, Optional
 
 from fastapi import Depends, FastAPI, HTTPException, status
@@ -28,37 +26,8 @@ PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "").rstrip("/")
 BRIDGE_API_KEY = os.environ["BRIDGE_API_KEY"]
 
 def refresh_honcho_client() -> None:
-    """Refresh the Honcho OAuth access token when a refresh token is available."""
+    """Rebuild the Honcho SDK client from the configured API key."""
     global HONCHO_API_KEY, HONCHO_REFRESH_TOKEN, honcho, user_peer, ai_peer, session
-
-    if HONCHO_REFRESH_TOKEN:
-        form = urllib.parse.urlencode(
-            {
-                "grant_type": "refresh_token",
-                "refresh_token": HONCHO_REFRESH_TOKEN,
-                "client_id": HONCHO_OAUTH_CLIENT_ID,
-            }
-        ).encode()
-        request = urllib.request.Request(
-            HONCHO_OAUTH_TOKEN_ENDPOINT,
-            data=form,
-            method="POST",
-            headers={
-                "Accept": "application/json",
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-        )
-        with urllib.request.urlopen(request, timeout=30) as response:
-            data = response.read().decode()
-
-        import json
-
-        token_response = json.loads(data)
-        HONCHO_API_KEY = token_response["access_token"]
-        HONCHO_REFRESH_TOKEN = token_response.get(
-            "refresh_token",
-            HONCHO_REFRESH_TOKEN,
-        )
 
     honcho = Honcho(
         workspace_id=HONCHO_WORKSPACE,
